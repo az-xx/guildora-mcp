@@ -61,7 +61,7 @@ export class DiscordConnection {
         rest: { rejectOnRateLimit: (info) => info.retryAfter > MAX_QUEUED_WAIT_MS },
         makeCache: Options.cacheWithLimits({
           ...Options.DefaultMakeCacheSettings,
-          MessageManager: 100,
+          MessageManager: 25,
           PresenceManager: 0,
         }),
         allowedMentions: { parse: ['users', 'roles'], repliedUser: true },

@@ -29,6 +29,8 @@ export function gatewayIntents(status: IntentStatus): number[] {
     GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.GuildScheduledEvents,
     GatewayIntentBits.GuildExpressions,
+    // Keeps channel.lastMessageId current for recent_activity and list_unanswered.
+    GatewayIntentBits.GuildMessages,
   ];
   if (status.members) intents.push(GatewayIntentBits.GuildMembers);
   return intents;

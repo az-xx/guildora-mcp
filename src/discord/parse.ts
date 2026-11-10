@@ -71,6 +71,13 @@ export function parseDuration(input: string | number, field = 'duration'): numbe
   return Math.round(total);
 }
 
+/** Like formatDuration, but only the two largest units: "28d21h", "3h5m", "45s". */
+export function formatDurationShort(ms: number): string {
+  const full = formatDuration(ms);
+  const parts = full.match(/d+[dhms]/g) ?? [full];
+  return parts.slice(0, 2).join('');
+}
+
 export function formatDuration(ms: number): string {
   if (ms <= 0) return '0s';
   const parts: string[] = [];
