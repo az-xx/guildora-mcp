@@ -6,6 +6,20 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `get_new_messages` (core): messages received live during the session across the server or a
+  channel, category or forum, with a cursor to fetch only newer ones and an `only_mentions`
+  filter. Kept in a bounded in-memory buffer (5,000 messages).
+- MCP prompts: `server_digest`, `triage_forum`, `reply_queue` and `catch_up`. Their steps
+  adapt to the enabled tools, and in read-only mode they only draft.
+
+### Changed
+
+- The Message Content intent is now also requested on the gateway when it is enabled in the
+  Developer Portal, so live messages include their text.
+- `core` now has 20 tools (67 in total).
+
 ## [0.2.2] - 2026-11-10
 
 ### Fixed
