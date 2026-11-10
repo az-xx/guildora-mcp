@@ -31,9 +31,11 @@ export function fmtChannelWithKind(c: Channel): string {
   return `${fmtChannel(c)} [${channelKind(c.type)}]`;
 }
 
-export function fmtUser(u: User | null | undefined): string {
+export function fmtUser(
+  u: (Pick<User, 'id' | 'bot'> & { username: string | null }) | null | undefined,
+): string {
   if (!u) return 'unknown user';
-  return `@${u.username} (${u.id})${u.bot ? ' [bot]' : ''}`;
+  return `@${u.username ?? 'unknown'} (${u.id})${u.bot ? ' [bot]' : ''}`;
 }
 
 export function fmtMember(m: GuildMember): string {
