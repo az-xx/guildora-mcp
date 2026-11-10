@@ -6,6 +6,11 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Release workflow: pushing a `v*` tag publishes to npm with Trusted Publishing (no token, no 2FA
+  prompt, with provenance) and creates the GitHub release from this changelog.
+
 ## [0.2.0] - 2026-11-10
 
 ### Added

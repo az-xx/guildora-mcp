@@ -61,6 +61,36 @@ git-ignored; see `.env.example`). Then run `npm run test:live`. Never use a prod
    it takes most of a second to load. Use `import type` and `src/discord/api.ts`.
 8. Add tests, run `npm run build && npm run docs:tools`, and update `CHANGELOG.md`.
 
+## Releasing (maintainers)
+
+Releases are published by GitHub Actions (`.github/workflows/release.yml`) using npm Trusted
+Publishing: no npm token, no 2FA prompt, and the package gets a provenance statement.
+
+1. Add a `## [x.y.z] - YYYY-MM-DD` section to `CHANGELOG.md` (and the compare links at the bottom).
+2. Bump the version without tagging, then commit:
+
+   ```bash
+   npm version x.y.z --no-git-tag-version
+   git commit -am "chore(release): x.y.z"
+   ```
+
+3. Push the commit, then the tag:
+
+   ```bash
+   git push
+   git tag vx.y.z
+   git push origin vx.y.z
+   ```
+
+The workflow checks that the tag matches `package.json`, runs lint, typecheck, tests, build and
+the docs check, publishes to npm (skipped if that version is already there) and creates the GitHub
+release from the changelog section. New npm versions can stay in npm's "Validating" state for a
+few minutes before they can be installed.
+
+One-time setup (already needed only once per package): on npmjs.com open the package >
+**Settings** > **Trusted Publisher** > **GitHub Actions**, and enter owner `az-xx`, repository
+`guildora-mcp`, workflow `release.yml`.
+
 ## Commits and pull requests
 
 - Use [Conventional Commits](https://www.conventionalcommits.org): `feat:`, `fix:`, `docs:`,
