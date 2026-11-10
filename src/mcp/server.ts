@@ -3,6 +3,7 @@ import type { PackName } from '../tools/packs.js';
 import { PACK_NAMES } from '../tools/packs.js';
 import { annotationsFor, inputShape } from '../tools/registry.js';
 import { executeTool } from '../tools/execute.js';
+import { registerPrompts } from './prompts.js';
 import type { AnyTool, ToolContext } from '../tools/types.js';
 
 export interface ServerOptions {
@@ -49,5 +50,6 @@ export function createMcpServer(
       async (args: Record<string, unknown>) => executeTool(tool, args, getContext),
     );
   }
+  registerPrompts(server, new Set(tools.map((t) => t.name)));
   return server;
 }
