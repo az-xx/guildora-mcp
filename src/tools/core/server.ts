@@ -287,7 +287,7 @@ export const listRoles = defineTool({
     const lines = items.map((r) => {
       const flags = [
         `pos ${r.position}`,
-        formatColor(r.color),
+        formatColor(r.colors.primaryColor),
         r.hoist ? 'hoisted' : '',
         r.mentionable ? 'mentionable' : '',
         r.managed ? 'managed' : '',
