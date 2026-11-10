@@ -6,6 +6,28 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-10
+
+### Added
+
+- `get_attachment` (core): opens a message's attachments. Images come back as images the model can
+  see, scaled to about 1568 px / 1.15 MP through Discord's media proxy (no native image library);
+  text files (logs, code, JSON, CSV) come back as text.
+- `list_unanswered` (core): tickets, channels, threads and forum posts where someone is waiting
+  for a staff reply, sorted by wait time. Staff by role or by moderator permissions.
+- `recent_activity` (core): which channels and threads had messages from people since a time,
+  with counts and the latest message, without opening each channel.
+- `read_forum` (threads): a forum's posts with tags, author, counts, opening message and
+  optionally the latest replies, active and archived, filterable by tag.
+- `check_access` (core): what a member or role can do in a channel and which overwrites cause
+  it, or who can see the channel at all.
+- Tools can now return images as MCP image content.
+
+### Changed
+
+- Requests the non-privileged Guild Messages intent so channel activity stays current.
+- `core` now has 19 tools (66 in total).
+
 ## [0.1.0] - 2026-11-10
 
 First version.
@@ -27,5 +49,6 @@ First version.
 - Actionable error messages for Discord API errors, hierarchy problems and rate limits.
 - Tested live against a real server over stdio and HTTP (read-only).
 
-[Unreleased]: https://github.com/az-xx/guildora-mcp/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/az-xx/guildora-mcp/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/az-xx/guildora-mcp/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/az-xx/guildora-mcp/releases/tag/v0.1.0
