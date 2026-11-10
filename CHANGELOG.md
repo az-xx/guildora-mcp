@@ -6,6 +6,21 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `list_inactive_channels` (channels): channels idle for a period, longest first, with how many of
+  Discord's 500 channels are used; `people_only` ignores bot activity.
+- `archive_channel` (channels): moves up to 50 channels into a private "Archive" category (created
+  as needed, "Archive 2" when full) and syncs permissions; lists old overwrites for restoring.
+  Destructive: dry run unless confirmed.
+- New `insights` pack:
+  - `export_messages`: saves a channel, thread, ticket or DM as a Markdown transcript or JSON.
+  - `server_snapshot`: saves the server structure (roles, channels, permission overwrites) as JSON
+    and lists what changed since an earlier snapshot.
+  - `message_stats`: message counts by channel, person, day and hour over a period.
+- `GUILDORA_EXPORT_DIR` (default `~/guildora-exports`). Files are only written in stdio mode and
+  never overwritten.
+
 ## [0.3.0] - 2026-11-10
 
 ### Added
