@@ -6,6 +6,10 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- `list_unanswered` shows wait times compactly ("28d22h") instead of down to the second.
+
 ## [0.2.1] - 2026-11-10
 
 No code changes; this release validates the new publishing setup.

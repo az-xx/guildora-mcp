@@ -3,6 +3,7 @@ import { SnowflakeUtil } from 'discord.js';
 import {
   formatColor,
   formatDuration,
+  formatDurationShort,
   parseColor,
   parseDate,
   parseDiscordLink,
@@ -71,6 +72,14 @@ describe('parseDuration', () => {
   it('formats durations compactly', () => {
     expect(formatDuration(5_400_000)).toBe('1h30m');
     expect(formatDuration(0)).toBe('0s');
+  });
+
+  it('shortens durations to the two largest units', () => {
+    const ms = ((28 * 24 + 22) * 60 + 32) * 60_000 + 16_000;
+    expect(formatDuration(ms)).toBe('28d22h32m16s');
+    expect(formatDurationShort(ms)).toBe('28d22h');
+    expect(formatDurationShort(45_000)).toBe('45s');
+    expect(formatDurationShort(0)).toBe('0s');
   });
 });
 
