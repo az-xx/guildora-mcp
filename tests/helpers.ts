@@ -141,6 +141,7 @@ export function config(overrides: Partial<Config> = {}): Config {
     httpToken: undefined,
     logLevel: 'error',
     scanLimit: 1000,
+    exportDir: 'guildora-exports-test',
     ...overrides,
   };
 }

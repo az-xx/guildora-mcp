@@ -9,6 +9,7 @@ export const PACK_NAMES = [
   'webhooks',
   'invites',
   'emoji',
+  'insights',
 ] as const;
 
 export type PackName = (typeof PACK_NAMES)[number];
@@ -23,4 +24,5 @@ export const PACK_DESCRIPTIONS: Record<PackName, string> = {
   webhooks: 'List, create and delete webhooks; send messages through them',
   invites: 'List, create, inspect and revoke invites',
   emoji: 'Custom emoji and stickers',
+  insights: 'Export conversations, server snapshots and comparisons, message statistics',
 };

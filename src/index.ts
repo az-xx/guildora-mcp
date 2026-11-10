@@ -35,6 +35,7 @@ Environment:
   GUILDORA_HOST         HTTP bind address, default 127.0.0.1
   GUILDORA_PORT         HTTP port, default 8085
   GUILDORA_HTTP_TOKEN   require "Authorization: Bearer <token>" over HTTP
+  GUILDORA_EXPORT_DIR   folder for exports and snapshots (default ~/guildora-exports)
   GUILDORA_SCAN_LIMIT   max messages scanned when server search is unavailable (default 1000)
   GUILDORA_LOG_LEVEL    error | warn | info (default) | debug  (logs go to stderr)
 

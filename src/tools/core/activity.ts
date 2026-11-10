@@ -13,7 +13,7 @@ import {
 } from '../../discord/parse.js';
 import { fmtChannel, fmtUser, page, truncate, ts } from '../../discord/format.js';
 
-type MessageChannel = GuildBasedChannel & TextBasedChannel;
+export type MessageChannel = GuildBasedChannel & TextBasedChannel;
 
 const CONCURRENCY = 5;
 
@@ -59,7 +59,7 @@ const scopeField = z
   );
 
 /** Text-based channels and active threads in scope that the bot can read. */
-async function channelsInScope(
+export async function channelsInScope(
   ctx: ToolContext,
   guild: Guild,
   scope: string | undefined,

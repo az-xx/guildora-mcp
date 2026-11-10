@@ -11,6 +11,7 @@ import { voiceTools } from './voice/index.js';
 import { webhookTools } from './webhooks/index.js';
 import { inviteTools } from './invites/index.js';
 import { emojiTools } from './emoji/index.js';
+import { insightsTools } from './insights/index.js';
 
 export const ALL_TOOLS: readonly AnyTool[] = [
   ...coreTools,
@@ -22,6 +23,7 @@ export const ALL_TOOLS: readonly AnyTool[] = [
   ...webhookTools,
   ...inviteTools,
   ...emojiTools,
+  ...insightsTools,
 ];
 
 export interface SelectOptions {

@@ -1,3 +1,5 @@
+import { homedir } from 'node:os';
+import { join } from 'node:path';
 import { z } from 'zod';
 import { PACK_NAMES, type PackName } from './tools/packs.js';
 
@@ -15,6 +17,8 @@ export interface Config {
   httpToken: string | undefined;
   logLevel: LogLevel;
   scanLimit: number;
+  /** Where export_messages and server_snapshot write files (stdio only). */
+  exportDir: string;
 }
 
 /** Raised for invalid configuration. The message is shown to the user as-is. */
@@ -142,6 +146,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     httpToken,
     logLevel: logLevelRaw as LogLevel,
     scanLimit,
+    exportDir: env.GUILDORA_EXPORT_DIR?.trim() || join(homedir(), 'guildora-exports'),
   };
 }
 
