@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+
+# npm pack output
+*.tgz
+
+# Environment files (may contain secrets). Only the example is committed.
+.env*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
