@@ -6,6 +6,10 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-10
+
+No code changes; this release validates the new publishing setup.
+
 ### Added
 
 - Release workflow: pushing a `v*` tag publishes to npm with Trusted Publishing (no token, no 2FA
@@ -54,6 +58,7 @@ First version.
 - Actionable error messages for Discord API errors, hierarchy problems and rate limits.
 - Tested live against a real server over stdio and HTTP (read-only).
 
-[Unreleased]: https://github.com/az-xx/guildora-mcp/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/az-xx/guildora-mcp/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/az-xx/guildora-mcp/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/az-xx/guildora-mcp/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/az-xx/guildora-mcp/releases/tag/v0.1.0
