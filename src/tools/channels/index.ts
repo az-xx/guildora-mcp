@@ -366,6 +366,12 @@ const listOverwrites = defineTool({
   readOnly: true,
   async run(args, ctx) {
     const channel = overwritableChannel(await guildChannelArg(ctx, args.guild, args.channel));
+    const memberIds = channel.permissionOverwrites.cache
+      .filter((o) => o.type === OverwriteType.Member)
+      .map((o) => o.id);
+    if (memberIds.length) {
+      await channel.guild.members.fetch({ user: memberIds }).catch(() => undefined);
+    }
     const lines = channel.permissionOverwrites.cache.map((o) => {
       const who =
         o.type === OverwriteType.Role
@@ -373,7 +379,10 @@ const listOverwrites = defineTool({
               const r = channel.guild.roles.cache.get(o.id);
               return r ? `role ${fmtRole(r)}` : `role ${o.id}`;
             })()
-          : `member ${o.id}`;
+          : (() => {
+              const m = channel.guild.members.cache.get(o.id);
+              return m ? `member ${fmtMember(m)}` : `member ${o.id}`;
+            })();
       const allow = permissionNames(o.allow.bitfield);
       const deny = permissionNames(o.deny.bitfield);
       return `${who} · allow: ${allow.join(', ') || '-'} · deny: ${deny.join(', ') || '-'}`;

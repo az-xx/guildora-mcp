@@ -47,13 +47,15 @@ export function fmtRole(r: Role): string {
   return r.id === r.guild.id ? '@everyone' : `@${r.name} (${r.id})`;
 }
 
-function fmtAttachment(a: Attachment): string {
-  return `${a.name} (${a.contentType ?? 'file'}, ${bytes(a.size)}, id ${a.id}) ${a.url}`;
+function fmtAttachment(a: Attachment, withUrl: boolean): string {
+  return `${a.name} (${a.contentType ?? 'file'}, ${bytes(a.size)}, id ${a.id})${withUrl ? ` ${a.url}` : ''}`;
 }
 
 export interface FormatMessageOptions {
   /** Max characters of content to include (default: no limit beyond Discord's own). */
   maxContent?: number;
+  /** Include attachment URLs (long signed CDN links). Default false; get_message enables it. */
+  attachmentUrls?: boolean;
 }
 
 /** Compact, model-friendly rendering of one message. */
@@ -69,7 +71,8 @@ export function fmtMessage(m: Message, opts: FormatMessageOptions = {}): string 
 
   const content = opts.maxContent ? truncate(m.content, opts.maxContent) : m.content;
   if (content) lines.push(...content.split('\n').map((l) => `  ${l}`));
-  for (const a of m.attachments.values()) lines.push(`  [attachment] ${fmtAttachment(a)}`);
+  for (const a of m.attachments.values())
+    lines.push(`  [attachment] ${fmtAttachment(a, opts.attachmentUrls === true)}`);
   for (const e of m.embeds) {
     const parts = [e.title, e.description ? truncate(e.description, 200) : null, e.url].filter(
       Boolean,

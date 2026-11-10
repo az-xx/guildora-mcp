@@ -182,8 +182,11 @@ const deleteRole = defineTool({
     if (role.id === guild.id) throw new GuildoraError('@everyone cannot be deleted.');
     requireRoleBelowBot(guild, role, 'deleted');
     const warnings: string[] = [];
-    if (ctx.intents.members)
-      warnings.push(`${role.members.size} member(s) have this role (from cache).`);
+    // Members are not cached at startup; load them (small servers only) for an accurate count.
+    if (ctx.intents.members && guild.memberCount <= 5000) {
+      await guild.members.fetch();
+      warnings.push(`${role.members.size} member(s) have this role.`);
+    }
     if (role.permissions.has(PermissionFlagsBits.Administrator))
       warnings.push('This role has Administrator.');
     return {

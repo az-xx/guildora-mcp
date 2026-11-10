@@ -37,7 +37,7 @@ export const readMessages = defineTool({
   title: 'Read messages',
   description:
     'Reads recent messages from a channel, thread, forum post or DM, shown oldest first with IDs, authors, ' +
-    'replies, attachments, embeds and reactions. Page with before/after/around (message ID or ISO date). ' +
+    'replies, attachments (names and IDs; get_message gives URLs), embeds and reactions. Page with before/after/around (message ID or ISO date). ' +
     'pinned: true lists pinned messages instead. To find messages by text or author, use search_messages.',
   input: {
     ...messageTargetFields,
@@ -132,7 +132,7 @@ export const getMessage = defineTool({
   readOnly: true,
   async run(args, ctx) {
     const m = await messageArg(ctx, args);
-    const lines = [fmtMessage(m), `Link: ${m.url}`];
+    const lines = [fmtMessage(m, { attachmentUrls: true }), `Link: ${m.url}`];
     if (m.type === MessageType.Reply && m.reference?.messageId) {
       const ref = await m.fetchReference().catch(() => undefined);
       lines.push(

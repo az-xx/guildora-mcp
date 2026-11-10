@@ -177,6 +177,9 @@ const KEY_CHANNEL_PERMS = [
   'MoveMembers',
 ] as const;
 
+const SORT_NAMES: Record<number, string> = { 0: 'latest activity', 1: 'creation date' };
+const LAYOUT_NAMES: Record<number, string> = { 0: 'not set', 1: 'list', 2: 'gallery' };
+
 function describeChannel(c: GuildBasedChannel, guild: Guild): string[] {
   const lines = [`${fmtChannel(c)} [${channelKind(c.type)}]`, `Created: ${ts(c.createdAt)}`];
   if (c.parent && !c.isThread()) lines.push(`Category: ${fmtChannel(c.parent)}`);
@@ -213,7 +216,7 @@ function describeChannel(c: GuildBasedChannel, guild: Guild): string[] {
     );
     lines.push(`Tags: ${tags.join(', ') || 'none'}`);
     lines.push(
-      `Default sort: ${c.defaultSortOrder ?? 'default'} · Default layout: ${'defaultForumLayout' in c ? c.defaultForumLayout : 'n/a'}`,
+      `Default sort: ${SORT_NAMES[c.defaultSortOrder ?? -1] ?? 'not set'} · Default layout: ${'defaultForumLayout' in c ? (LAYOUT_NAMES[c.defaultForumLayout ?? -1] ?? 'not set') : 'n/a'}`,
     );
   }
   if (c.type === ChannelType.GuildCategory) {

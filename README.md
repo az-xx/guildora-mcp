@@ -204,7 +204,7 @@ Server info, channels, members, roles (read), messages, DMs, reactions, pins, se
 | `list_roles` | read-only | Lists server roles from highest to lowest with ID, position, color, flags and notable permissions. |
 | `list_members` | read-only | Lists server members with IDs, roles and join date. |
 | `get_member` | read-only | Full details of one server member: names, account and join dates, all roles, timeout, voice channel, boosting, key permissions, and whether the bot can kick/ban/timeout them (role hierarchy). |
-| `read_messages` | read-only | Reads recent messages from a channel, thread, forum post or DM, shown oldest first with IDs, authors, replies, attachments, embeds and reactions. |
+| `read_messages` | read-only | Reads recent messages from a channel, thread, forum post or DM, shown oldest first with IDs, authors, replies, attachments (names and IDs; get_message gives URLs), embeds and reactions. |
 | `get_message` | read-only | Fetches one message by ID or link, with attachments (IDs, sizes, URLs), embeds, reactions and the message it replies to. |
 | `search_messages` | read-only | Finds messages by text, author, mentions, attachments/links (has), pinned state and date range. |
 | `send_message` | write | Sends a message to a channel, thread, forum post or a user's DMs (pass "user"). |
