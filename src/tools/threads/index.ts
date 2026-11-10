@@ -22,7 +22,8 @@ import {
 import { GuildoraError } from '../../mcp/errors.js';
 import { isUnicodeEmoji, pickByName, resolveGuildEmoji } from '../../discord/resolve.js';
 import { isSnowflake, parseDate, parseDiscordLink, parseDuration } from '../../discord/parse.js';
-import { fmtChannel, page, ts } from '../../discord/format.js';
+import { fmtChannel, fmtMessage, fmtUser, page, ts } from '../../discord/format.js';
+import { snowflakeTimestamp } from '../../discord/api.js';
 
 type ThreadParent = TextChannel | NewsChannel | ForumChannel | MediaChannel;
 type PostParent = ForumChannel | MediaChannel;
@@ -408,4 +409,121 @@ const manageForumTags = defineTool({
   },
 });
 
-export const threadTools: AnyTool[] = [listThreads, createThread, editThread, manageForumTags];
+const readForum = defineTool({
+  name: 'read_forum',
+  pack: 'threads',
+  title: 'Read a forum',
+  description:
+    'Reads a forum or media channel in one call: each post with its title, tags, author, message count, last ' +
+    'activity and opening message, optionally the latest replies. Covers active and archived posts; filter by ' +
+    'tag. Use it to review bug reports or questions; read_messages on a post ID gives the full conversation.',
+  input: {
+    forum: z.string().describe('Forum or media channel (ID, mention, link or name).'),
+    guild: guildField,
+    state: z.enum(['active', 'archived', 'all']).optional().describe('Default "all".'),
+    tags: z
+      .array(z.string())
+      .optional()
+      .describe('Only posts with any of these tags (names or IDs).'),
+    replies: z
+      .number()
+      .int()
+      .min(0)
+      .max(10)
+      .optional()
+      .describe('Latest replies per post (0-10, default 0).'),
+    max_chars: z
+      .number()
+      .int()
+      .min(100)
+      .max(4000)
+      .optional()
+      .describe('Max characters per message (default 600).'),
+    limit: z.number().int().min(1).max(25).optional().describe('Max posts (1-25, default 10).'),
+    cursor: z
+      .string()
+      .optional()
+      .describe('next_cursor from a previous call (continues with older archived posts).'),
+  },
+  readOnly: true,
+  async run(args, ctx) {
+    const forum = (await guildChannelArg(ctx, args.guild, args.forum, {
+      kinds: ['forum', 'media'],
+      label: 'forum',
+    })) as PostParent;
+    const state = args.state ?? 'all';
+    const limit = args.limit ?? 10;
+    const wanted = args.tags?.length ? new Set(tagIds(forum, args.tags)) : undefined;
+    const hasTag = (t: AnyThreadChannel) => !wanted || t.appliedTags.some((id) => wanted.has(id));
+    const lastAt = (t: AnyThreadChannel) =>
+      t.lastMessageId ? snowflakeTimestamp(t.lastMessageId) : (t.createdTimestamp ?? 0);
+
+    const posts: AnyThreadChannel[] = [];
+    if (state !== 'archived' && !args.cursor) {
+      const active = await forum.threads.fetchActive();
+      posts.push(
+        ...[...active.threads.values()]
+          .filter((t) => t.parentId === forum.id && hasTag(t))
+          .sort((a, b) => lastAt(b) - lastAt(a)),
+      );
+    }
+    let next: string | undefined;
+    if (state !== 'active' && posts.length < limit) {
+      const before = args.cursor ? parseDate(args.cursor, 'cursor') : undefined;
+      const archived = await forum.threads.fetchArchived({
+        type: 'public',
+        limit: 50,
+        ...(before ? { before } : {}),
+      });
+      const list = [...archived.threads.values()].sort(
+        (a, b) => (b.archiveTimestamp ?? 0) - (a.archiveTimestamp ?? 0),
+      );
+      const room = limit - posts.length;
+      const matching = list.filter(hasTag);
+      posts.push(...matching.slice(0, room));
+      const lastTaken = matching.slice(0, room).at(-1) ?? list.at(-1);
+      if ((archived.hasMore || matching.length > room) && lastTaken?.archiveTimestamp) {
+        next = new Date(lastTaken.archiveTimestamp).toISOString();
+      }
+    }
+    const shown = posts.slice(0, limit);
+    const maxContent = args.max_chars ?? 600;
+    const blocks = [];
+    for (const t of shown) {
+      const tags = tagNames(t);
+      const head =
+        `## ${fmtChannel(t)} · ${t.archived ? 'archived' : 'active'}${t.locked ? ', locked' : ''}` +
+        `${tags.length ? ` · tags: ${tags.join(', ')}` : ''} · ${t.messageCount ?? '?'} msgs` +
+        ` · by ${t.ownerId ? fmtUser((await t.fetchOwner().catch(() => null))?.user ?? { id: t.ownerId, username: null, bot: false }) : 'unknown'}` +
+        ` · created ${ts(t.createdAt)} · last activity ${ts(lastAt(t))}`;
+      const lines = [head];
+      const starter = await t.fetchStarterMessage().catch(() => null);
+      lines.push(starter ? fmtMessage(starter, { maxContent }) : '(opening message deleted)');
+      if (args.replies) {
+        const recent = [...(await t.messages.fetch({ limit: args.replies + 1 })).values()]
+          .filter((m) => m.id !== t.id)
+          .sort((a, b) => a.createdTimestamp - b.createdTimestamp)
+          .slice(-args.replies);
+        if (recent.length)
+          lines.push(
+            `Latest ${recent.length} repl${recent.length === 1 ? 'y' : 'ies'}:`,
+            ...recent.map((m) => fmtMessage(m, { maxContent })),
+          );
+      }
+      blocks.push(lines.join('\n'));
+    }
+    return page(
+      `${shown.length} post(s) in ${fmtChannel(forum)}${wanted ? ' with the requested tags' : ''}:`,
+      blocks,
+      next,
+    );
+  },
+});
+
+export const threadTools: AnyTool[] = [
+  listThreads,
+  readForum,
+  createThread,
+  editThread,
+  manageForumTags,
+];
