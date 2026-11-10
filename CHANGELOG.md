@@ -6,6 +6,8 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-11-10
+
 ### Fixed
 
 - `list_unanswered` shows wait times compactly ("28d22h") instead of down to the second.
@@ -62,7 +64,8 @@ First version.
 - Actionable error messages for Discord API errors, hierarchy problems and rate limits.
 - Tested live against a real server over stdio and HTTP (read-only).
 
-[Unreleased]: https://github.com/az-xx/guildora-mcp/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/az-xx/guildora-mcp/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/az-xx/guildora-mcp/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/az-xx/guildora-mcp/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/az-xx/guildora-mcp/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/az-xx/guildora-mcp/releases/tag/v0.1.0
