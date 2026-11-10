@@ -1,7 +1,7 @@
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import { describeError } from '../mcp/errors.js';
 import { describeWaits, runWithRateLimitTracking } from '../discord/ratelimit.js';
-import type { AnyTool, ToolContext } from './types.js';
+import type { AnyTool, ToolContext, ToolOutput } from './types.js';
 
 function text(body: string, isError = false): CallToolResult {
   return isError
@@ -26,7 +26,7 @@ export async function executeTool(
   getContext: () => Promise<ToolContext>,
 ): Promise<CallToolResult> {
   try {
-    const { value, waits } = await runWithRateLimitTracking(async () => {
+    const { value, waits } = await runWithRateLimitTracking(async (): Promise<ToolOutput> => {
       const ctx = await getContext();
       if (tool.destructive) {
         const { confirm, ...args } = rawArgs;
@@ -37,7 +37,14 @@ export async function executeTool(
       return tool.run(rawArgs, ctx);
     });
     const note = describeWaits(waits);
-    return text(note ? `${value}\n${note}` : value);
+    const body = typeof value === 'string' ? value : value.text;
+    const result = text(note ? `${body}\n${note}` : body);
+    if (typeof value !== 'string') {
+      for (const img of value.images) {
+        result.content.push({ type: 'image', data: img.data, mimeType: img.mimeType });
+      }
+    }
+    return result;
   } catch (err) {
     return text(
       describeError(err, {

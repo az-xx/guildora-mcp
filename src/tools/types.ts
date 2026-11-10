@@ -13,6 +13,20 @@ export interface ToolContext {
   guild(input?: string): Promise<Guild>;
 }
 
+/** An image returned to the model (base64), e.g. a screenshot attached to a message. */
+export interface ToolImage {
+  data: string;
+  mimeType: string;
+}
+
+/** A tool result with images. Plain strings are the common case. */
+export interface RichOutput {
+  text: string;
+  images: ToolImage[];
+}
+
+export type ToolOutput = string | RichOutput;
+
 /** The result of preparing a destructive action: a description and the deferred action. */
 export interface Plan {
   /** What would happen, e.g. "Delete channel #general (123)". */
@@ -38,13 +52,13 @@ interface ToolBase<S extends z.ZodRawShape> {
 export interface ReadTool<S extends z.ZodRawShape> extends ToolBase<S> {
   readOnly: true;
   destructive?: false;
-  run(args: z.infer<z.ZodObject<S>>, ctx: ToolContext): Promise<string>;
+  run(args: z.infer<z.ZodObject<S>>, ctx: ToolContext): Promise<ToolOutput>;
 }
 
 export interface WriteTool<S extends z.ZodRawShape> extends ToolBase<S> {
   readOnly: false;
   destructive?: false;
-  run(args: z.infer<z.ZodObject<S>>, ctx: ToolContext): Promise<string>;
+  run(args: z.infer<z.ZodObject<S>>, ctx: ToolContext): Promise<ToolOutput>;
 }
 
 /** Destructive tools never act directly: they return a Plan, executed only with confirm: true. */

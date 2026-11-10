@@ -76,6 +76,31 @@ async function assertPublicHost(hostname: string): Promise<void> {
   }
 }
 
+const DISCORD_CDN = /^(cdn\.discordapp\.com|media\.discordapp\.net)$/;
+
+/** Downloads an attachment from Discord's own CDN, with a size limit. */
+export async function fetchDiscordCdn(
+  rawUrl: string,
+  maxBytes: number,
+): Promise<{ data: Buffer; type: string }> {
+  const url = new URL(rawUrl);
+  if (url.protocol !== 'https:' || !DISCORD_CDN.test(url.hostname)) {
+    throw new GuildoraError(`Not a Discord CDN URL: ${url.hostname}`);
+  }
+  const res = await fetch(url, { signal: AbortSignal.timeout(20_000) });
+  if (!res.ok || !res.body) {
+    throw new GuildoraError(`Could not download the attachment (HTTP ${res.status}).`);
+  }
+  const chunks: Buffer[] = [];
+  let total = 0;
+  for await (const chunk of res.body) {
+    total += chunk.length;
+    if (total > maxBytes) throw new GuildoraError(`The file is over the ${bytes(maxBytes)} limit.`);
+    chunks.push(Buffer.from(chunk));
+  }
+  return { data: Buffer.concat(chunks), type: res.headers.get('content-type') ?? '' };
+}
+
 async function download(rawUrl: string, maxBytes: number): Promise<Buffer> {
   let url: URL;
   try {
