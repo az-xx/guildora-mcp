@@ -83,6 +83,7 @@ async function main(): Promise<void> {
       client,
       config,
       intents: discord.intents,
+      buffer: discord.buffer,
       guild: async (input) => resolveGuild(client, input, config.defaultGuildId),
     };
   };

@@ -15,6 +15,7 @@ import { searchMessages } from './search.js';
 import { getAttachment } from './attachments.js';
 import { listUnanswered, recentActivity } from './activity.js';
 import { checkAccess } from './access.js';
+import { getNewMessages } from './new-messages.js';
 
 export const coreTools: AnyTool[] = [
   getServerInfo,
@@ -28,6 +29,7 @@ export const coreTools: AnyTool[] = [
   getAttachment,
   searchMessages,
   recentActivity,
+  getNewMessages,
   listUnanswered,
   sendMessage,
   editMessage,

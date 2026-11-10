@@ -2,6 +2,7 @@ import type { Client, Guild } from 'discord.js';
 import type { z } from 'zod';
 import type { Config } from '../config.js';
 import type { IntentStatus } from '../discord/intents.js';
+import type { MessageBuffer } from '../discord/buffer.js';
 import type { PackName } from './packs.js';
 
 /** What every tool handler receives. */
@@ -9,6 +10,8 @@ export interface ToolContext {
   client: Client<true>;
   config: Config;
   intents: IntentStatus;
+  /** Messages received since startup; absent in tests and one-off scripts. */
+  buffer?: MessageBuffer;
   /** Resolves a server from an ID or name, falling back to DISCORD_GUILD_ID or the only server. */
   guild(input?: string): Promise<Guild>;
 }

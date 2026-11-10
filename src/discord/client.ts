@@ -1,5 +1,6 @@
 import type { APIApplication, Client } from 'discord.js';
 import { isDiscordApiError } from './api.js';
+import { MessageBuffer, toBuffered } from './buffer.js';
 import type { Config } from '../config.js';
 import type { Logger } from '../logger.js';
 import {
@@ -25,6 +26,8 @@ export class DiscordConnection {
   client: Client | undefined;
   intents: IntentStatus = { members: false, messageContent: false };
   warnings: string[] = [];
+  /** New messages seen on the gateway since startup (for get_new_messages). */
+  readonly buffer = new MessageBuffer();
   private failure: Error | undefined;
   private readonly ready: Promise<Client<true>>;
   private resolveReady!: (c: Client<true>) => void;
@@ -69,6 +72,16 @@ export class DiscordConnection {
       client.rest.on('rateLimited', (info) => {
         recordRateLimit(info);
         this.logger.debug(`rate limited on ${info.route} for ${info.retryAfter}ms`);
+      });
+      client.on(Events.MessageCreate, (m) => {
+        try {
+          const record = client.user ? toBuffered(m, client.user.id) : undefined;
+          if (record) this.buffer.add(record);
+        } catch (e) {
+          this.logger.debug(
+            `could not buffer message: ${e instanceof Error ? e.message : String(e)}`,
+          );
+        }
       });
       client.on(Events.Error, (e) => this.logger.error(`Discord client error: ${e.message}`));
       client.on(Events.ShardDisconnect, (event) => {

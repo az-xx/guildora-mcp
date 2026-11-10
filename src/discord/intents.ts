@@ -33,6 +33,8 @@ export function gatewayIntents(status: IntentStatus): number[] {
     GatewayIntentBits.GuildMessages,
   ];
   if (status.members) intents.push(GatewayIntentBits.GuildMembers);
+  // Gateway events only carry message text if the intent is also requested here.
+  if (status.messageContent) intents.push(GatewayIntentBits.MessageContent);
   return intents;
 }
 
