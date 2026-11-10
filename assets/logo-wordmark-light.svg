@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 280" role="img" aria-label="Guildora">
+  <title>Guildora</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2E2670"/>
+      <stop offset="1" stop-color="#110F26"/>
+    </linearGradient>
+    <linearGradient id="gold" gradientUnits="userSpaceOnUse" x1="256" y1="80" x2="256" y2="432">
+      <stop offset="0" stop-color="#FFE08A"/>
+      <stop offset="1" stop-color="#FF9A3D"/>
+    </linearGradient>
+  </defs>
+
+  <!-- icon (512 grid scaled to 240) -->
+  <g transform="translate(20 20) scale(0.46875)">
+    <rect width="512" height="512" rx="116" fill="url(#bg)"/>
+    <path d="M256 92 L384 136 V256 C384 334 332 388 256 420 C180 388 128 334 128 256 V136 Z"
+          fill="url(#gold)" stroke="url(#gold)" stroke-width="24" stroke-linejoin="round"/>
+    <path d="M309.5 207.8 A72 72 0 1 0 328 256 H266"
+          fill="none" stroke="#16132E" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="262" cy="256" r="23" fill="#16132E"/>
+    <circle cx="262" cy="256" r="8" fill="#FFD36E"/>
+  </g>
+
+  <!-- wordmark: for light backgrounds -->
+  <text x="304" y="186" font-family="'Segoe UI', Inter, 'Helvetica Neue', Arial, sans-serif"
+        font-size="148" font-weight="700" letter-spacing="-3" fill="#16132E">Guild<tspan fill="#D97706">ora</tspan></text>
+</svg>

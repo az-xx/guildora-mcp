@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.svg" width="128" height="128" alt="Guildora logo">
+</p>
+
 # Guildora
 
 **A lightweight, pack-based MCP server for Discord.** Let Claude (or any MCP client) read and manage

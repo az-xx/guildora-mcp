@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="96 60 320 392" role="img" aria-label="Guildora">
+  <title>Guildora</title>
+  <defs>
+    <linearGradient id="gold" gradientUnits="userSpaceOnUse" x1="256" y1="80" x2="256" y2="432">
+      <stop offset="0" stop-color="#FFD36E"/>
+      <stop offset="1" stop-color="#F58A2A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- guild crest, no tile: for use on any background -->
+  <path d="M256 92 L384 136 V256 C384 334 332 388 256 420 C180 388 128 334 128 256 V136 Z"
+        fill="url(#gold)" stroke="url(#gold)" stroke-width="24" stroke-linejoin="round"/>
+  <path d="M309.5 207.8 A72 72 0 1 0 328 256 H266"
+        fill="none" stroke="#16132E" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="262" cy="256" r="23" fill="#16132E"/>
+  <circle cx="262" cy="256" r="8" fill="#FFD36E"/>
+</svg>
