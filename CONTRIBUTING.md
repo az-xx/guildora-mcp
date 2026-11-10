@@ -29,8 +29,10 @@ Useful scripts:
 ```bash
 npm run build
 npm pack                                  # creates guildora-mcp-<version>.tgz
-claude mcp add guildora-dev -e DISCORD_TOKEN=... -- npx -y ./guildora-mcp-<version>.tgz
+claude mcp add guildora-dev -e DISCORD_TOKEN=... -- npx -y --package=/absolute/path/guildora-mcp-<version>.tgz guildora-mcp
 ```
+
+Use an absolute path for `--package`. On native Windows, put `cmd /c` before `npx`.
 
 Or inspect it with the MCP Inspector:
 
