@@ -6,7 +6,7 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 
-## [0.1.0] - unreleased
+## [0.1.0] - 2026-11-10
 
 First version.
 
@@ -25,3 +25,7 @@ First version.
 - Fast startup: the MCP handshake is served before discord.js loads.
 - Startup checks for the token and privileged intents, with fix instructions.
 - Actionable error messages for Discord API errors, hierarchy problems and rate limits.
+- Tested live against a real server over stdio and HTTP (read-only).
+
+[Unreleased]: https://github.com/az-xx/guildora-mcp/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/az-xx/guildora-mcp/releases/tag/v0.1.0
