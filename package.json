@@ -1,0 +1,69 @@
+{
+  "name": "guildora-mcp",
+  "version": "0.1.0",
+  "description": "Lightweight, pack-based MCP server for Discord, written in TypeScript",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "discord",
+    "discord-bot",
+    "claude",
+    "ai",
+    "typescript"
+  ],
+  "homepage": "https://github.com/az-xx/guildora-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/az-xx/guildora-mcp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/az-xx/guildora-mcp.git"
+  },
+  "license": "MIT",
+  "author": "Guildora contributors",
+  "type": "module",
+  "bin": {
+    "guildora-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist/**/*.js",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/clean.js && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:live": "vitest run --config vitest.live.config.ts",
+    "docs:tools": "node scripts/tool-docs.js",
+    "prepack": "npm run build",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "discord-api-types": "^0.38.58",
+    "discord.js": "^14.28.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.5",
+    "@vitest/coverage-v8": "^5.1.0",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
+    "prettier": "^3.9.10",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^5.1.0"
+  }
+}
