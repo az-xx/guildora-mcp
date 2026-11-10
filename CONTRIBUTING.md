@@ -87,7 +87,7 @@ the docs check, publishes to npm (skipped if that version is already there) and 
 release from the changelog section. New npm versions can stay in npm's "Validating" state for a
 few minutes before they can be installed.
 
-One-time setup (already needed only once per package): on npmjs.com open the package >
+One-time setup (once per package): on npmjs.com open the package >
 **Settings** > **Trusted Publisher** > **GitHub Actions**, and enter owner `az-xx`, repository
 `guildora-mcp`, workflow `release.yml`.
 
