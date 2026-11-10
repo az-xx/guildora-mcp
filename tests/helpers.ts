@@ -7,7 +7,11 @@ import type { Config } from '../src/config.js';
 import type { ToolContext } from '../src/tools/types.js';
 import { ChannelType } from '../src/discord/api.js';
 
-export const TOKEN = ['MTAwMDAwMDAwMDAwMDAwMDAwMA', 'GaBcDe', 'abcdefghijklmnopqrstuvwxyz0123456789AB'].join('.');
+export const TOKEN = [
+  'MTAwMDAwMDAwMDAwMDAwMDAwMA',
+  'GaBcDe',
+  'abcdefghijklmnopqrstuvwxyz0123456789AB',
+].join('.');
 
 export function apiError(code: number, status: number, message = 'error', errors?: unknown) {
   return new DiscordAPIError(
