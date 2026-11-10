@@ -29,6 +29,7 @@ import { GuildoraError } from '../../mcp/errors.js';
 import { resolveMember, resolveRole } from '../../discord/resolve.js';
 import { parseDuration, parsePermissions, permissionNames } from '../../discord/parse.js';
 import { fmtChannel, fmtChannelWithKind, fmtMember, fmtRole, page } from '../../discord/format.js';
+import { archiveChannel, listInactiveChannels } from './archive.js';
 
 const CREATE_TYPES = {
   text: ChannelType.GuildText,
@@ -507,6 +508,8 @@ export const channelTools: AnyTool[] = [
   createChannel,
   editChannel,
   deleteChannel,
+  listInactiveChannels,
+  archiveChannel,
   listOverwrites,
   setPermissions,
   deleteOverwrite,
