@@ -9,6 +9,7 @@
 export {
   ApplicationFlags,
   AuditLogEvent,
+  ChannelFlags,
   ChannelType,
   ForumLayoutType,
   GatewayIntentBits,
