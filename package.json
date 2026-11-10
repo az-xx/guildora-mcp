@@ -1,6 +1,6 @@
 {
   "name": "guildora-mcp",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Lightweight, pack-based MCP server for Discord, written in TypeScript",
   "keywords": [
     "mcp",
